@@ -615,6 +615,21 @@
     <div id="app"></div>
 
     <script>
+      // Restore path encoded by 404.html (GitHub Pages SPA redirect trick)
+      (function() {
+        var qs = window.location.search;
+        if (qs) {
+          var params = new URLSearchParams(qs);
+          var p = params.get('p');
+          if (p) {
+            var url = decodeURIComponent(p);
+            window.history.replaceState(null, '', url);
+          }
+        }
+      })();
+    </script>
+
+    <script>
       /* ── SUPABASE CONFIG ── */
       const SUPABASE_URL = 'https://shwanvkwdwwnaltekazm.supabase.co/rest/v1';
       const SUPABASE_KEY = 'sb_publishable_fNMBOQIyICNcSxBWnBdhoQ_yilSevlb';
@@ -630,19 +645,8 @@
         return Math.random().toString(36).slice(2, 9) + Math.random().toString(36).slice(2, 6);
       }
 
-      function getBasePath() {
-        // Works in both dev (/) and any BASE_PATH deployment
-        const base = document.querySelector('base') ? document.querySelector('base').href : '/';
-        try { return new URL(base).pathname; } catch(e) { return '/'; }
-      }
-
-      function getPath() {
-        return window.location.pathname;
-      }
-
-      function extractLinkId(path) {
-        const m = path.match(/\/v\/([^/?#]+)/);
-        return m ? m[1] : null;
+      function extractLinkId() {
+        return new URLSearchParams(window.location.search).get('id');
       }
 
       async function sbGet(table, filter) {
@@ -702,8 +706,7 @@
 
       /* ── ROUTER ── */
       function route() {
-        const path = getPath();
-        const linkId = extractLinkId(path);
+        const linkId = extractLinkId();
         const app = document.getElementById('app');
         if (linkId) {
           renderVisitor(app, linkId);
@@ -789,7 +792,7 @@
 
         try {
           const id = await createLink(url);
-          const link = window.location.origin + '/v/' + id;
+          const link = window.location.origin + window.location.pathname + '?id=' + id;
 
           document.getElementById('resultLink').textContent = link;
           resultBox.style.display = 'block';
@@ -819,7 +822,7 @@
           list.innerHTML = rows.map(r => {
             const locs = Array.isArray(r.locations) ? r.locations : [];
             const count = locs.length;
-            const shareLink = window.location.origin + '/v/' + r.id;
+            const shareLink = window.location.origin + window.location.pathname + '?id=' + r.id;
 
             const locsHtml = count === 0
               ? '<div class="loc-empty">📭 No location captures yet.</div>'
@@ -855,7 +858,7 @@
               <div class="link-card" id="card-${r.id}">
                 <div class="link-card-header" onclick="toggleCard('${r.id}')">
                   <div class="link-item-info">
-                    <div class="link-item-id">/v/${r.id}</div>
+                    <div class="link-item-id">?id=${r.id}</div>
                     <div class="link-item-url" title="${r.redirect_url}">${r.redirect_url}</div>
                   </div>
                   <div class="link-item-right">
